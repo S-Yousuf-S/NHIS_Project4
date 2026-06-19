@@ -156,6 +156,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+MPP_ENV/
 
 # Spyder project settings
 .spyderproject
@@ -214,5 +215,7 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# Streamlit
+# OS generated files
+.DS_Store
+Thumbs.db# Streamlit
 .streamlit/secrets.toml
