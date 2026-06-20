@@ -11,6 +11,17 @@
 
 ---
 
+![Python](https://img.shields.io/badge/Language-Python%203.10+-30363d)
+![Notebook](https://img.shields.io/badge/Environment-Jupyter%20Notebook-30363d)
+![Domain](https://img.shields.io/badge/Domain-Machine%20Learning-30363d)
+![Dataset](https://img.shields.io/badge/Dataset-541%20Devices-30363d)
+![Model](https://img.shields.io/badge/Best%20Model-XGBoost%20Tuned-58a6ff)
+![CV R²](https://img.shields.io/badge/CV%20R²-0.9276-58a6ff)
+![Status](https://img.shields.io/badge/Status-Completed-2ea043)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
+---
+
 > **⚠️ EVALUATION NOTICE:**
 > The core analytical methodologies, model interpretations, and business insights are detailed
 > explicitly in the presentation's **Speaker Notes**. Please download the raw
