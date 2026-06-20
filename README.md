@@ -4,7 +4,7 @@
 ![Notebook](https://img.shields.io/badge/Environment-Jupyter%20Notebook-orange)
 ![Domain](https://img.shields.io/badge/Domain-Machine%20Learning-blueviolet)
 ![Dataset](https://img.shields.io/badge/Dataset-541%20Devices-teal)
-![Model](https://img.shields.io/badge/Best%20Model-XGBoost%20Tuned-brightgreen)
+![Model](https://img.shields.io/badge/Best%20Model-XGBoost%20Tuned-crimson)
 ![CV R²](https://img.shields.io/badge/CV%20R²-0.9276-success)
 ![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
