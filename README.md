@@ -160,12 +160,7 @@ Mobile-Price-Prediction/
 │
 ├── Assets/
 │   ├── Processed_Flipdata.csv                    # Source dataset (541 rows × 12 columns)
-│   ├── hero_image_dashboard.png                  # Model selection dashboard (hero image)
-│   ├── feature_signal_strength_RF.png            # Preliminary Feature Screening chart
-│   ├── Feature_importance_OptimizedXGBoost.png   # XGBoost built-in importance chart
-│   ├── Permutation_importance_XGB.png            # Permutation importance chart
-│   ├── Residual_analysis.png                     # Residual & error analysis plots
-│   └── univariate_pie_categories.png             # Brand & colour distribution charts
+│   └── hero_image_dashboard.png                  # Model selection dashboard (hero image)
 │
 ├── mobile_price_prediction.ipynb                 # Main analysis notebook (11 sections)
 ├── Mobile_Price_Prediction_Presentation.pptx     # Project presentation
@@ -294,9 +289,35 @@ jupyter notebook mobile_price_prediction.ipynb
 
 ## 🙋 Frequently Asked Questions
 
-**Q: Why were three feature screening methods used instead of one?**
+**Q: Why were Model_Category and Colour_Category created if they don't feed the model?**
 
-**A:** Each method detects a different type of relationship. Correlation detects linear signal; SelectKBest measures statistical significance; Random Forest screening detects non-linear patterns. Two features — Battery_mAh and Model_Encoded — appeared irrelevant to linear methods but critical to the tree-based screen. Controlled empirical experiments confirmed both genuinely improve model performance when retained. A single method would have incorrectly recommended dropping both.
+**A:** These grouped categories exist purely for EDA visualization — specifically the brand distribution pie chart and average price by brand chart. The actual model uses the more granular Model_Encoded and Colour_Encoded features which encode individual model names and colour variants, not brand families. Grouped
+categories are more readable in charts but lose the fine-grained pricing signal that individual model encoding captures. Both are dropped during EDA Cleanup
+before modeling begins.
+
+---
+
+**Q: Why does the model use Label Encoding for Model and Colour instead of One-Hot Encoding?**
+
+**A:** Model has 187 unique values and Colour has over 50. One-Hot Encoding either of these would add 187+ binary columns to the dataset — far more columns than the 541 rows available, causing the curse of dimensionality and making the model unstable. Label Encoding keeps each as a single integer column. Processor Brand, by contrast, has only 6 categories — manageable for One-Hot Encoding, which avoids imposing a false ordinal relationship between brands.
+
+---
+
+**Q: Why was IQR capping used for outliers instead of removing them?**
+
+**A:** Removing outliers on a 541-row dataset would delete potentially 30–50 rows — a significant loss of information. IQR capping retains all 541 devices while reducing the influence of extreme values by capping them at the boundary rather than deleting them. This preserves the full dataset size while still preventing outliers from distorting model training.
+
+---
+
+**Q: Is processor brand not important for pricing?**
+
+**A:** In this dataset, processor brand alone is not a reliable independent price signal. All four processor brand columns ranked in the Negligible tier in Feature Importance Analysis, with Proc_Qualcomm and Proc_Unisoc showing slightly negative permutation importance scores — meaning their presence marginally harmed generalization on unseen data.
+
+---
+
+**Q: Why were only 4 models compared instead of testing more options like SVM or Neural Networks?**
+
+**A:** The four models were chosen to form a deliberate complexity ladder — Linear Regression (linear baseline), Decision Tree (non-linear, rule-based), Random Forest (bagging ensemble), XGBoost (boosting ensemble). Each model answers a specific question about the data's structure. Adding SVM or Neural Networks would extend the runtime significantly (SVM scales poorly with mixed feature types; Neural Networks require far more data than 541 rows to generalize reliably) while adding complexity that isn't justified by the project's scope. The four-model ladder already answers the core question decisively — XGBoost's CV R² of 0.9276 leaves little room for improvement that would justify the added complexity.
 
 ---
 
@@ -306,27 +327,33 @@ jupyter notebook mobile_price_prediction.ipynb
 
 ---
 
+**Q: Why were three feature screening methods used instead of one?**
+
+**A:** Each method detects a different type of relationship. Correlation detects linear signal; SelectKBest measures statistical significance; Random Forest screening detects non-linear patterns. Two features — Battery_mAh and Model_Encoded — appeared irrelevant to linear methods but critical to the tree-based screen. Controlled empirical experiments confirmed both genuinely improve model performance when retained. A single method would have incorrectly recommended dropping both.
+
+---
+
 **Q: Why was the final model retrained on 100% of the data?**
 
 **A:** The 80/20 train-test split was used during evaluation to measure generalization to unseen data. Once GridSearchCV confirmed the optimal hyperparameters, the test set had served its purpose. Retraining on all 541 samples gives the deployed model maximum exposure to pricing patterns across the full dataset.
 
 ---
 
+**Q: What does Cross-Validation R² measure and why does it matter more than Test R²?**
+
+**A:** Test R² measures performance on one specific held-out split — it can be lucky or unlucky depending on which 20% of devices ended up in the test set. Cross-Validation R² averages performance across 5 different splits of the data, giving a much more reliable estimate of how the model will perform on truly new, unseen data. A model with high Test R² but low CV R² is overfitting to one lucky split. A model with CV R² = 0.9276 means it consistently explains 92.76% of price variance regardless of which devices it's evaluated on.
+
+---
+
+**Q: What is a Feature Contribution Test and how is it different from feature importance?**
+
+**A:** Feature importance scores (from built-in XGBoost or permutation testing) tell you how much each feature contributed during training. A Feature Contribution Test goes further — it removes a specific feature entirely, retrains the model, and directly measures the performance change. It's a controlled before-and-after experiment rather than an inference from training weights. In this project, the Feature Contribution Test for Model_Encoded revealed a CV R² collapse from 0.9276 to 0.6212 — a finding that importance scores alone would not have revealed with the same clarity.
+
+---
+
 **Q: Why does the Flagship sample prediction show a lower price than Upper Mid?**
 
 **A:** Model_Encoded is label-encoded alphabetically by individual model name — not by brand tier or price hierarchy. The model cannot infer "flagship" from spec values alone. This reflects a genuine pattern in the dataset: flagship-spec devices from budget brands are priced below mid-range devices from premium brands. The model has learned this market reality accurately.
-
----
-
-**Q: Why was learning_rate set to 0.1?**
-
-**A:** In XGBoost, learning_rate is a shrinkage factor applied after each tree — not a gradient descent step size. A lower value forces the model to learn more gradually across more trees (n_estimators: 300), producing a more stable and generalizable result. The XGBoost authors recommend values between 0.01 and 0.3.
-
----
-
-**Q: Is processor brand not important for pricing?**
-
-**A:** In this dataset, processor brand alone is not a reliable independent price signal. All four processor brand columns ranked in the Negligible tier in Feature Importance Analysis, with Proc_Qualcomm and Proc_Unisoc showing slightly negative permutation importance scores — meaning their presence marginally harmed generalization on unseen data.
 
 ---
 
