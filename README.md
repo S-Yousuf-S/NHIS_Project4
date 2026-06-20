@@ -73,23 +73,24 @@ Complete transformation from raw, inconsistent data to a model-ready feature set
 - **Feature Engineering:** Extracted numeric MP values from camera strings; extracted Processor Brand from full processor name strings; grouped individual model names into brand categories; grouped colour variants into base colour families
 - **Outlier Treatment:** IQR-based capping applied — no rows deleted, all 541 retained
 - **Encoding:** Label Encoding for Model and Colour; One-Hot Encoding for Processor Brand (6 binary columns)
-- **Output:** 541 × 18 model-ready dataset
+- **Output:** 541 × 18 EDA-ready dataset
 
 ### 📊 Section 04 — Exploratory Data Analysis
 Three-layer visual analysis uncovering the pricing dynamics in this market.
 - **Univariate:** Price distribution (right-skewed), RAM/Storage tier counts, brand and colour family pie charts
 - **Bivariate:** Price vs RAM, Memory, AI Lens boxplots; Average price by brand category; Processor brand distribution
 - **Multivariate:** Correlation heatmap, interaction analysis across feature combinations
+- **Output:** Matrix reduced to 541 × 16 after dropping EDA-exclusive columns (`Model_Category`, `Colour_Category`).
 
 ### 🔬 Section 05 — Feature Extraction & Selection
 The most analytically rigorous section — three independent screening methods applied and conflicts resolved empirically.
 - **Method 1:** Pearson Correlation ranking (linear signal with Price)
 - **Method 2:** SelectKBest F-test (statistical significance, p < 0.05 threshold)
 - **Method 3:** Random Forest Screening (non-linear signal strength, RF gain score ≥ 0.01)
-- **Three-method comparison table** built to identify consensus features and flag conflicts
-- **Empirical experiments** conducted for all three conflicting features (Model_Encoded, Battery_mAh, AI Lens)
-- **Feature Contribution Test** confirmed Model_Encoded's retention is critical — removal collapses CV R² from 0.9276 to 0.6212
-- **4 features dropped** with evidence from multiple methods; **11-feature final set** retained
+- **Triangulation:** Three-method comparison table built to identify consensus features and explicitly flag analytical conflicts.
+- **Empirical experiments:** Conducted custom retention tests for all three conflicting features (`Model_Encoded`, `Battery_mAh`, `AI Lens`)
+- **Feature Contribution Test:** Confirmed `Model_Encoded` is strictly necessary — its removal collapsed CV R² from 0.9276 to 0.6212.
+- **Output:** 4 mathematically weak features dropped. Final optimized dataset locked at **541 × 12 (11 predictive features + 1 Target variable)**.
 
 ### 🏁 Section 06 — Model Building & Optimization — The Race
 Four models trained under identical conditions, progressing from simplest to most complex.
