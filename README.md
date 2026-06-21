@@ -1,4 +1,4 @@
-# 📱 Feature Extraction and Price Prediction for Mobile Phones
+# 📱 SMARTPHONE PRICE PREDICTIONS
 
 ![Python](https://img.shields.io/badge/Language-Python%203.10+-blue)
 ![Notebook](https://img.shields.io/badge/Environment-Jupyter%20Notebook-orange)
