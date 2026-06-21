@@ -28,7 +28,7 @@
 
 ## 📌 Project Overview
 
-**Mobile Phone Price Prediction** is a complete end-to-end machine learning pipeline that predicts smartphone retail prices from hardware specifications. The project goes beyond basic model training — applying a three-method feature screening process, controlled empirical experiments to resolve conflicting signals, and dual-method importance validation to produce findings that are evidence-backed at every step.
+**SmartPhone Price Prediction** is a complete end-to-end machine learning pipeline that predicts smartphone retail prices from hardware specifications. The project goes beyond basic model training — applying a three-method feature screening process, controlled empirical experiments to resolve conflicting signals, and dual-method importance validation to produce findings that are evidence-backed at every step.
 
 The central business question driving this project:
 
