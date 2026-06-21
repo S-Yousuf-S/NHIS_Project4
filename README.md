@@ -14,7 +14,7 @@
 > **⚠️ EVALUATION NOTICE:**
 > The core analytical methodologies, model interpretations, and business insights are detailed
 > explicitly in the presentation's **Speaker Notes**. Please download the raw
-> [SmartPhone_Price_Prediction_Presentation](./Mobile_Price_Prediction_Presentation.pptx) file
+> [Smartphone_Price_Prediction_Presentation](./Mobile_Price_Prediction_Presentation.pptx) file
 > to access the full analytical breakdown.
 
 ---
@@ -28,7 +28,7 @@
 
 ## 📌 Project Overview
 
-**SmartPhone Price Prediction** is a complete end-to-end machine learning pipeline that predicts smartphone retail prices from hardware specifications. The project goes beyond basic model training — applying a three-method feature screening process, controlled empirical experiments to resolve conflicting signals, and dual-method importance validation to produce findings that are evidence-backed at every step.
+**Smartphone Price Prediction** is a complete end-to-end machine learning pipeline that predicts smartphone retail prices from hardware specifications. The project goes beyond basic model training — applying a three-method feature screening process, controlled empirical experiments to resolve conflicting signals, and dual-method importance validation to produce findings that are evidence-backed at every step.
 
 The central business question driving this project:
 
