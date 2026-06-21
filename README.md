@@ -1,4 +1,4 @@
-# 📱 SMARTPHONE PRICE PREDICTIONS
+# 📱 SMARTPHONE PRICE PREDICTION
 
 ![Python](https://img.shields.io/badge/Language-Python%203.10+-blue)
 ![Notebook](https://img.shields.io/badge/Environment-Jupyter%20Notebook-orange)
@@ -14,7 +14,7 @@
 > **⚠️ EVALUATION NOTICE:**
 > The core analytical methodologies, model interpretations, and business insights are detailed
 > explicitly in the presentation's **Speaker Notes**. Please download the raw
-> [Mobile_Price_Prediction_Presentation](./Mobile_Price_Prediction_Presentation.pptx) file
+> [SmartPhone_Price_Prediction_Presentation](./Mobile_Price_Prediction_Presentation.pptx) file
 > to access the full analytical breakdown.
 
 ---
