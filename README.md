@@ -447,16 +447,19 @@ jupyter notebook smartphone_price_prediction_v4.0.ipynb
 ---
 
 **Q: Why was Cross-Validation used in addition to the train-test split?**
+
 **A:** The train-test split measures performance on one unseen subset of the data, whereas Cross-Validation evaluates the model across multiple data splits. Using both provides a more reliable assessment of the model's ability to generalise beyond a single test partition.
 
 ---
 
 **Q: Why were Feature Contribution Tests (FCTs) performed?**
+
 **A:** Feature importance scores indicate how much each feature contributes during training, whereas Feature Contribution Tests verify whether a feature genuinely improves predictive performance by retraining the model after removing it. This provides additional evidence before finalising the deployed feature set.
 
 ---
 
 **Q: Can this model be used for real-world smartphone pricing?**
+
 **A:** The model demonstrates strong predictive performance on the available dataset and is suitable for educational, analytical, and decision-support purposes. For production deployment, it should be retrained periodically using newer smartphone releases to reflect changing market trends.
 
 ---
