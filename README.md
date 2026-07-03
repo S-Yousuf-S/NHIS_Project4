@@ -1,4 +1,4 @@
-# 📱 SMARTPHONE PRICE PREDICTION
+# 📱 **SMARTPHONE PRICE PREDICTION**
 
 ![Python](https://img.shields.io/badge/Language-Python%203.10+-blue)
 ![Notebook](https://img.shields.io/badge/Environment-Jupyter%20Notebook-orange)
