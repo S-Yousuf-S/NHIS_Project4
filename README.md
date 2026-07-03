@@ -5,7 +5,7 @@
 ![Domain](https://img.shields.io/badge/Domain-Predictive%20Analytics-blueviolet)
 ![Dataset](https://img.shields.io/badge/Dataset-541%20Devices-teal)
 ![Model](https://img.shields.io/badge/Best%20Model-XGBoost-crimson)
-![Status](https://img.shields.io/badge/Status-Completed%20v4.0-brightgreen)
+![Status](https://img.shields.io/badge/Status-Completed%20-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
