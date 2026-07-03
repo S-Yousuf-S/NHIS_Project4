@@ -33,7 +33,7 @@ Rather than treating prediction as the final objective, this notebook focuses on
 
 ---
 
-# 📌 Project Overview
+## 📌 Project Overview
 
 Smartphone prices are influenced by multiple interacting hardware characteristics rather than a single specification. Memory, cameras, battery capacity, processor family, and brand positioning all contribute differently across price segments, making manual pricing difficult and often inconsistent.
 
@@ -58,7 +58,7 @@ Instead of presenting only predictive performance, the notebook explains the rea
 
 ---
 
-# 🎯 Project Objectives
+## 🎯 Project Objectives
 
 This project aims to:
 
@@ -74,7 +74,7 @@ This project aims to:
 
 ---
 
-# ❓ Key Business Questions
+## ❓ Key Business Questions
 
 The notebook investigates the following business questions:
 
@@ -87,7 +87,7 @@ The notebook investigates the following business questions:
 
 ---
 
-# 🚀 Analytical Workflow
+## 🚀 Analytical Workflow
 
 The notebook follows an end-to-end analytical pipeline consisting of eleven major sections. Each stage builds upon the previous one, transforming raw smartphone specifications into an interpretable machine learning solution with actionable business recommendations.
 
@@ -109,7 +109,7 @@ The workflow intentionally follows the complete lifecycle of an applied machine 
 
 ---
 
-# 📂 Dataset Overview
+## 📂 Dataset Overview
 
 | Property | Detail |
 |---|---|
@@ -123,7 +123,7 @@ The dataset contains smartphone hardware specifications collected from the retai
 
 ---
 
-## Raw Dataset Dictionary
+### Raw Dataset Dictionary
 
 | Column | Type | Description |
 |---|---|---|
@@ -142,7 +142,7 @@ The dataset contains smartphone hardware specifications collected from the retai
 
 ---
 
-## Engineered Features
+### Engineered Features
 
 | Feature | Description |
 |---|---|
@@ -158,7 +158,7 @@ The dataset contains smartphone hardware specifications collected from the retai
 
 ---
 
-# 🧹 Data Preprocessing
+## 🧹 Data Preprocessing
 
 The preprocessing pipeline transforms the raw smartphone specifications into a modelling-ready dataset.
 
@@ -174,20 +174,21 @@ Major preprocessing tasks include:
 
 ---
 
-# 📊 Exploratory Data Analysis
+## 📊 Exploratory Data Analysis
 
 EDA is organised into three complementary stages.
 
-### 🔹 Univariate Analysis
+#### 🔹 Univariate Analysis
 
 - Price distribution and skewness
 - RAM and Memory distributions
 - Smartphone brand distribution
 - Colour family distribution
 - Processor brand distribution
+- Mobile Height Validation
 - Outlier detection
 
-### 🔹 Bivariate Analysis
+#### 🔹 Bivariate Analysis
 
 - Price vs RAM
 - Price vs Memory
@@ -195,7 +196,7 @@ EDA is organised into three complementary stages.
 - Average smartphone price by brand
 - Processor brand distribution
 
-### 🔹 Multivariate Analysis
+#### 🔹 Multivariate Analysis
 
 - Correlation heatmap
 
@@ -203,7 +204,7 @@ EDA is organised into three complementary stages.
 
 ---
 
-# 🔬 Feature Extraction & Selection
+## 🔬 Feature Extraction & Selection
 
 Rather than relying on a single technique, feature selection combines multiple complementary methods before finalising the modelling dataset.
 
@@ -219,7 +220,7 @@ Features producing conflicting results are further validated through empirical e
 
 ---
 
-# 🏁 Model Building & Tuning — The Race
+## 🏁 Model Building & Tuning — The Race
 
 Four regression algorithms are trained and evaluated under identical experimental conditions to ensure a fair comparison. The models progress from a simple linear baseline to increasingly sophisticated ensemble methods, allowing improvements in predictive performance to be assessed systematically.
 
@@ -234,13 +235,13 @@ The best-performing baseline model is subsequently optimised using **GridSearchC
 
 ---
 
-## ⚙️ Hyperparameter Optimization
+### ⚙️ Hyperparameter Optimization
 
 To improve model generalisation, the winning XGBoost model undergoes systematic hyperparameter optimisation using **GridSearchCV**.
 
 The optimisation process evaluates **162 hyperparameter combinations**, resulting in **810 model fits** through **5-fold Cross-Validation** before selecting the optimal model configuration.
 
-### Final Optimized Hyperparameters
+#### Final Optimized Hyperparameters
 
 | Hyperparameter | Value |
 |---|---:|
@@ -252,7 +253,7 @@ The optimisation process evaluates **162 hyperparameter combinations**, resultin
 
 ---
 
-# 📊 Model Comparison Dashboard
+## 📊 Model Comparison Dashboard
 
 All models are evaluated using identical train-test splits and the same performance metrics to ensure an unbiased comparison.
 
@@ -268,7 +269,7 @@ The interactive dashboard provides a side-by-side comparison of every candidate 
 
 ---
 
-# 🔍 Feature Importance Analysis
+## 🔍 Feature Importance Analysis
 
 To interpret the final model, two complementary feature importance techniques are applied:
 
@@ -279,7 +280,7 @@ The combined analysis identifies the hardware specifications that contribute mos
 
 ---
 
-# 🎯 Final Model — Retraining, Predictions & Validation
+## 🎯 Final Model — Retraining, Predictions & Validation
 
 After selecting the optimal hyperparameters, the tuned XGBoost model is retrained using the complete dataset to maximise the information available for learning before deployment.
 
@@ -295,7 +296,7 @@ These steps validate the deployed model beyond conventional evaluation metrics a
 
 ---
 
-# 📈 Key Findings
+## 📈 Key Findings
 
 - Ensemble learning consistently outperformed the linear baseline.
 - Hyperparameter optimisation further improved the predictive performance of XGBoost.
@@ -306,7 +307,7 @@ These steps validate the deployed model beyond conventional evaluation metrics a
 
 ---
 
-# 🗂️ Repository Structure
+## 🗂️ Repository Structure
 
 ```text
 NHIS_Project4/
@@ -323,7 +324,7 @@ NHIS_Project4/
 
 ---
 
-# 📦 Library Architecture
+## 📦 Library Architecture
 
 | Library | Purpose |
 |---|---|
@@ -339,15 +340,15 @@ NHIS_Project4/
 
 ---
 
-# 💻 Installation & Setup
+## 💻 Installation & Setup
 
-## Prerequisites
+### Prerequisites
 
 - Python **3.10** or above
 
 ---
 
-## Option 1 — Google Colab *(Recommended)*
+### Option 1 — Google Colab *(Recommended)*
 
 1. Upload `smartphone_price_prediction_v4.0.ipynb` to your Google Colab session.
 2. If the dataset is not available locally, the notebook automatically downloads `Processed_Flipdata.csv` from GitHub.
@@ -355,22 +356,22 @@ NHIS_Project4/
 
 ---
 
-## Option 2 — Local Virtual Environment
+### Option 2 — Local Virtual Environment
 
-### 1. Clone the repository
+#### 1. Clone the repository
 
 ```bash
 git clone https://github.com/S-Yousuf-S/NHIS_Project4.git
 cd NHIS_Project4
 ```
 
-### 2. Create a virtual environment
+#### 2. Create a virtual environment
 
 ```bash
 python -m venv MPP_ENV
 ```
 
-### 3. Activate the environment
+#### 3. Activate the environment
 
 **Windows**
 
@@ -384,13 +385,13 @@ MPP_ENV\Scripts\activate
 source MPP_ENV/bin/activate
 ```
 
-### 4. Install the required libraries
+#### 4. Install the required libraries
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Launch Jupyter Notebook
+#### 5. Launch Jupyter Notebook
 
 ```bash
 jupyter notebook smartphone_price_prediction_v4.0.ipynb
@@ -402,7 +403,7 @@ jupyter notebook smartphone_price_prediction_v4.0.ipynb
 
 ---
 
-# 🙋 Frequently Asked Questions
+## 🙋 Frequently Asked Questions
 
 **Q: Why were `Model_Category` and `Colour_Category` created if they are not used for modelling?**
 
@@ -464,7 +465,7 @@ jupyter notebook smartphone_price_prediction_v4.0.ipynb
 
 ---
 
-# 💼 Business Recommendations
+## 💼 Business Recommendations
 
 The analytical findings from the final XGBoost model lead to the following business recommendations:
 
@@ -488,7 +489,7 @@ The analytical findings from the final XGBoost model lead to the following busin
 
 ---
 
-# 📌 Conclusion
+## 📌 Conclusion
 
 This project demonstrates a complete end-to-end machine learning workflow for smartphone price prediction, beginning with raw data preprocessing and concluding with business-focused recommendations.
 
@@ -500,7 +501,7 @@ Beyond predictive accuracy, the project emphasises explainability by validating 
 
 ---
 
-# 🚀 Future Scope
+## 🚀 Future Scope
 
 Potential extensions of this project include:
 
