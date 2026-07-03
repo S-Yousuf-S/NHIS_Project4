@@ -21,7 +21,7 @@ Rather than treating prediction as the final objective, this notebook focuses on
 > **⚠️ EVALUATION NOTICE:**
 > The core analytical methodologies, model interpretations, and business insights are detailed
 > explicitly in the presentation's **Speaker Notes**. Please download the raw
-> **[Smartphone_Price_Prediction_Presentation]**(./Smartphone_Price_Prediction_Presentation_YS.pptx) file
+> [Smartphone_Price_Prediction_Presentation](./Smartphone_Price_Prediction_Presentation_YS.pptx) file
 > to access the full analytical breakdown.
 
 ---
