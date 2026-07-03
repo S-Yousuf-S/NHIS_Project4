@@ -10,7 +10,7 @@
 
 ---
 
-# **From Data Exploration to Business Recommendations**
+### **From Data Exploration to Business Recommendations**
 
 An end-to-end machine learning project that predicts smartphone retail prices from hardware specifications while uncovering the key factors that drive pricing decisions. The project combines rigorous data preparation, exploratory analysis, feature engineering, statistical validation, machine learning, and business interpretation into a single reproducible workflow.
 
