@@ -3,9 +3,9 @@
 ![Python](https://img.shields.io/badge/Language-Python%203.10+-blue)
 ![Notebook](https://img.shields.io/badge/Environment-Jupyter%20Notebook-orange)
 ![Domain](https://img.shields.io/badge/Domain-Predictive%20Analytics-blueviolet)
-![Dataset](https://img.shields.io/badge/Dataset-541%20Devices-teal)
+![Dataset](https://img.shields.io/badge/Dataset-531%20Devices-teal)
 ![Model](https://img.shields.io/badge/Best%20Model-XGBoost-crimson)
-![Status](https://img.shields.io/badge/Status-Completed%204.0-brightgreen)
+![Status](https://img.shields.io/badge/Status-Completed%204.1-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
@@ -27,7 +27,7 @@ Rather than treating prediction as the final objective, this notebook focuses on
 ---
 
 <p align="center">
-  <img src="./Assets/hero_image_dashboard_v3.png" width="100%" alt="Smartphone Price Prediction Dashboard"/>
+  <img src="./Assets/hero_image_dashboard_final.png" width="100%" alt="Smartphone Price Prediction Dashboard"/>
 </p>
 <p align="center"><i>End-to-end machine learning workflow for smartphone price prediction and business insight generation.</i></p>
 
@@ -114,12 +114,12 @@ The workflow intentionally follows the complete lifecycle of an applied machine 
 | Property | Detail |
 |---|---|
 | **Dataset** | `Processed_Flipdata.csv` |
-| **Records** | 541 smartphones |
+| **Records** | 531 smartphones |
 | **Original Features** | 12 columns |
 | **Target Variable** | `Price` (INR) |
 | **Prediction Type** | Supervised Regression |
 
-The dataset contains smartphone hardware specifications collected from the retail market. Several variables are stored as textual specifications and require preprocessing before they can be used for statistical analysis or machine learning.
+The dataset contains smartphone hardware specifications collected from the retail market. Several variables are stored as textual specifications and require preprocessing before they can be used for statistical analysis or machine learning. The raw file contains 541 records; 10 exact duplicate rows (undetectable in an initial pass due to a unique row-index column) were identified and removed during preprocessing, leaving 531 unique records for analysis.
 
 ---
 
@@ -164,9 +164,9 @@ The preprocessing pipeline transforms the raw smartphone specifications into a m
 
 Major preprocessing tasks include:
 
-- Data quality verification
+- Data quality verification, including duplicate-row detection performed after removing the non-analytical row-index column
 - Feature engineering from textual specifications
-- Outlier treatment using the IQR method
+- Outlier detection using IQR, Z-Score, and percentile-based methods, with 99th-percentile capping applied to Price as the least aggressive, most defensible treatment
 - Categorical feature encoding
 - Final dataset validation
 
@@ -214,7 +214,7 @@ The notebook evaluates features using:
 - SelectKBest (F-Test)
 - Random Forest Feature Importance
 
-Features producing conflicting results are further validated through empirical experiments before the final feature set is confirmed.
+Features producing conflicting results are further validated through empirical experiments (5-fold cross-validation) before the final feature set is confirmed.
 
 **Output:** Optimised feature set used for model development.
 
@@ -239,17 +239,18 @@ The best-performing baseline model is subsequently optimised using **GridSearchC
 
 To improve model generalisation, the winning XGBoost model undergoes systematic hyperparameter optimisation using **GridSearchCV**.
 
-The optimisation process evaluates **162 hyperparameter combinations**, resulting in **810 model fits** through **5-fold Cross-Validation** before selecting the optimal model configuration.
+The optimisation process evaluates **180 hyperparameter combinations**, resulting in **900 model fits** through **5-fold Cross-Validation** before selecting the optimal model configuration.
 
 #### Final Optimized Hyperparameters
 
 | Hyperparameter | Value |
 |---|---:|
-| `colsample_bytree` | 0.8 |
 | `learning_rate` | 0.2 |
-| `max_depth` | 5 |
-| `n_estimators` | 300 |
+| `max_depth` | 3 |
+| `n_estimators` | 200 |
 | `subsample` | 0.8 |
+
+The tuned model is selected on the basis of cross-validated R² (CV R²) rather than single-split test performance. At this dataset size, a fixed ~107-row test split carries meaningful sampling variance — confirmed by re-running the full model comparison under an alternate train/test split, where the tuned model outperformed baseline on every test metric. CV R² remained stable across both seeds, while single-split test R² varied by over 0.11 — the more reliable signal at this scale.
 
 ---
 
@@ -259,13 +260,13 @@ All models are evaluated using identical train-test splits and the same performa
 
 | Model | Test MAE | Test RMSE | Test R² | CV R² |
 |---|---:|---:|---:|---:|
-| **Linear Regression** | ₹3,352 | ₹5,958 | 0.6070 | 0.6052 |
-| **Decision Tree** | ₹996 | ₹3,337 | 0.8767 | 0.8255 |
-| **Random Forest** | ₹1,413 | ₹3,463 | 0.8672 | 0.8750 |
-| **Baseline XGBoost** | ₹924 | ₹3,126 | 0.8918 | 0.9160 |
-| **Tuned XGBoost** | **₹777** | **₹2,294** | **0.9418** | **0.9343** |
+| **Linear Regression** | ₹4,110 | ₹6,665 | 0.4570 | 0.6256 |
+| **Decision Tree** | ₹1,313 | ₹4,418 | 0.7615 | 0.7766 |
+| **Random Forest** | ₹1,987 | ₹4,641 | 0.7367 | 0.8593 |
+| **Baseline XGBoost** | ₹1,194 | ₹3,793 | 0.8241 | 0.8809 |
+| **Tuned XGBoost** | ₹1,558 | ₹4,176 | 0.7868 | **0.9100** |
 
-The interactive dashboard provides a side-by-side comparison of every candidate model, clearly demonstrating the performance improvements achieved through hyperparameter optimisation.
+Baseline XGBoost records marginally lower raw error on this specific test split; Tuned XGBoost is selected for its superior cross-validated generalisation (CV R²), the metric used for final model selection throughout this project.
 
 ---
 
@@ -274,9 +275,9 @@ The interactive dashboard provides a side-by-side comparison of every candidate 
 To interpret the final model, two complementary feature importance techniques are applied:
 
 - **Built-in XGBoost Feature Importance**
-- **Permutation Feature Importance**
+- **Permutation Feature Importance** (30 repeats on the test set)
 
-The combined analysis identifies the hardware specifications that contribute most to smartphone price prediction and supports the business insights presented later in the project.
+The combined analysis identifies the hardware specifications that contribute most to smartphone price prediction and supports the business insights presented later in the project. Front camera resolution ranks as the dominant driver under both methods; Model_Encoded and RAM/Memory show notable divergence between methods, explored in the notebook as a genuine multicollinearity effect rather than a modelling flaw.
 
 ---
 
@@ -299,11 +300,11 @@ These steps validate the deployed model beyond conventional evaluation metrics a
 ## 📈 Key Findings
 
 - Ensemble learning consistently outperformed the linear baseline.
-- Hyperparameter optimisation further improved the predictive performance of XGBoost.
-- Front camera resolution emerged as the strongest pricing indicator.
-- Battery capacity demonstrated important non-linear pricing behaviour.
-- Feature Contribution Tests confirmed that selected features genuinely improved model performance.
-- Prediction error and residual analyses indicated that the final model generalises well across different smartphone price segments.
+- Hyperparameter optimisation improved the model's cross-validated generalisation (CV R²), confirmed as the more reliable metric at this dataset size via an alternate-split robustness check.
+- Front camera resolution emerged as the strongest pricing indicator under both built-in and permutation importance.
+- Battery capacity and model/brand identity both demonstrated substantial non-linear pricing influence, despite weak or negligible linear correlation with price.
+- Feature Contribution Tests confirmed that selected features genuinely improved model performance, with Model_Encoded acting as a primary stabilising feature for cross-validated generalisation.
+- Prediction error and residual analyses indicated that the final model performs reliably across budget-to-mid-range devices, with wider uncertainty in the sparsely-represented premium flagship segment.
 
 ---
 
@@ -314,9 +315,9 @@ NHIS_Project4/
 │
 ├── Assets/
 │   ├── Processed_Flipdata.csv                          # Source dataset
-│   └── hero_image_dashboard_v3.png                     # README hero image
+│   └── hero_image_dashboard_final.png                  # README hero image
 │
-├── smartphone_price_prediction_v4.0.ipynb              # Complete end-to-end notebook
+├── smartphone_price_prediction_v4.1.ipynb              # Complete end-to-end notebook
 ├── Smartphone_Price_Prediction_Presentation_YS.pptx    # Project presentation
 ├── requirements.txt                                    # Project dependencies
 └── README.md                                           # Project documentation
@@ -350,7 +351,7 @@ NHIS_Project4/
 
 ### Option 1 — Google Colab *(Recommended)*
 
-1. Upload `smartphone_price_prediction_v4.0.ipynb` to your Google Colab session.
+1. Upload `smartphone_price_prediction_v4.1.ipynb` to your Google Colab session.
 2. If the dataset is not available locally, the notebook automatically downloads `Processed_Flipdata.csv` from GitHub.
 3. Run the notebook sequentially from top to bottom.
 
@@ -394,7 +395,7 @@ pip install -r requirements.txt
 #### 5. Launch Jupyter Notebook
 
 ```bash
-jupyter notebook smartphone_price_prediction_v4.0.ipynb
+jupyter notebook smartphone_price_prediction_v4.1.ipynb
 ```
 
 > **Note:**
@@ -417,15 +418,15 @@ jupyter notebook smartphone_price_prediction_v4.0.ipynb
 
 ---
 
-**Q: Why was the IQR method used for outlier treatment instead of removing observations?**
+**Q: Why was 99th-percentile capping used for outlier treatment instead of removing observations?**
 
-**A:** Instead of deleting smartphones from an already modest-sized dataset, the IQR method caps extreme values while preserving all available records for model training.
+**A:** Three detection methods — IQR, Z-Score, and percentile-based capping — were evaluated side by side. IQR and Z-Score both flagged a large share of genuine premium-tier devices as outliers, which would have misrepresented the premium market segment if removed. 99th-percentile capping was selected as the most conservative approach: it controls the influence of extreme values while preserving every record for model training.
 
 ---
 
 **Q: Why were multiple feature selection techniques used instead of only one?**
 
-**A:** Each method evaluates feature relevance from a different perspective. Combining multiple techniques reduces the likelihood of incorrectly removing useful predictors before model development.
+**A:** Each method evaluates feature relevance from a different perspective. Combining multiple techniques reduces the likelihood of incorrectly removing useful predictors before model development. Where methods genuinely conflicted, empirical cross-validated experiments were run to resolve the disagreement with evidence rather than assumption.
 
 ---
 
@@ -435,9 +436,9 @@ jupyter notebook smartphone_price_prediction_v4.0.ipynb
 
 ---
 
-**Q: Why was XGBoost selected as the final model?**
+**Q: Why was XGBoost selected as the final model, despite Baseline XGBoost recording lower raw test-set error than the Tuned version?**
 
-**A:** Among all evaluated models, the tuned XGBoost model achieved the strongest overall performance across both test and cross-validation metrics, making it the most reliable choice for deployment.
+**A:** Model selection is based on cross-validated R² (CV R²) rather than a single train/test split. At this dataset's size (~424 training rows), a single ~107-row test split carries meaningful sampling variance — confirmed directly by re-running the full comparison under an alternate split, where the tuned model outperformed baseline on every test metric. CV R² stayed consistent across both splits, making it the more trustworthy indicator of true generalisation.
 
 ---
 
@@ -449,7 +450,7 @@ jupyter notebook smartphone_price_prediction_v4.0.ipynb
 
 **Q: Why was Cross-Validation used in addition to the train-test split?**
 
-**A:** The train-test split measures performance on one unseen subset of the data, whereas Cross-Validation evaluates the model across multiple data splits. Using both provides a more reliable assessment of the model's ability to generalise beyond a single test partition.
+**A:** The train-test split measures performance on one unseen subset of the data, whereas Cross-Validation evaluates the model across multiple data splits. Using both provides a more reliable assessment of the model's ability to generalise beyond a single test partition — a distinction that proved directly important during hyperparameter tuning in this project.
 
 ---
 
@@ -470,16 +471,16 @@ jupyter notebook smartphone_price_prediction_v4.0.ipynb
 The analytical findings from the final XGBoost model lead to the following business recommendations:
 
 1. **Prioritise camera quality in premium product positioning.**  
-   Front camera resolution consistently emerged as the strongest predictor of smartphone price, indicating that camera capabilities significantly influence perceived product value.
+   Front camera resolution consistently emerged as the strongest predictor of smartphone price under both built-in and permutation importance, indicating that camera capabilities significantly influence perceived product value.
 
 2. **Consider battery capacity alongside other hardware specifications.**  
-   Although its linear relationship with price appears weak, battery capacity demonstrates strong non-linear influence within the final model.
+   Although its linear relationship with price appears weak or negligible, battery capacity demonstrates strong non-linear influence within the final model, confirmed by a dedicated empirical experiment.
 
 3. **Preserve product-specific information when developing pricing models.**  
-   Feature Contribution Tests confirmed that individual model information contains valuable pricing signals beyond hardware specifications alone.
+   Feature Contribution Tests confirmed that individual model/brand information contains valuable pricing signals beyond hardware specifications alone — removing it caused the model's cross-validated generalisation to collapse substantially.
 
 4. **Adopt ensemble learning for smartphone price prediction.**  
-   Tree-based ensemble models consistently outperformed traditional linear regression, with the tuned XGBoost model delivering the strongest predictive performance.
+   Tree-based ensemble models consistently outperformed traditional linear regression, with the tuned XGBoost model delivering the strongest cross-validated performance.
 
 5. **Validate feature importance using multiple approaches.**  
    Combining statistical feature selection with model-based interpretation provides more reliable insights than relying on a single technique.
@@ -495,9 +496,9 @@ This project demonstrates a complete end-to-end machine learning workflow for sm
 
 Rather than relying on a single modelling technique, the notebook follows an evidence-driven pipeline involving exploratory data analysis, feature engineering, feature selection, model comparison, hyperparameter optimisation, feature interpretation, and comprehensive model validation.
 
-Among all evaluated models, the **tuned XGBoost Regressor** delivered the strongest overall performance, highlighting the effectiveness of boosting algorithms in capturing the complex, non-linear relationships present in smartphone pricing.
+Among all evaluated models, the **tuned XGBoost Regressor** delivered the strongest cross-validated performance, highlighting the effectiveness of boosting algorithms in capturing the complex, non-linear relationships present in smartphone pricing.
 
-Beyond predictive accuracy, the project emphasises explainability by validating feature importance through multiple analytical techniques and Feature Contribution Tests, ensuring that business recommendations are supported by measurable evidence.
+Beyond predictive accuracy, the project emphasises explainability by validating feature importance through multiple analytical techniques and Feature Contribution Tests, ensuring that business recommendations are supported by measurable evidence — including cases where that evidence required looking past single-split test metrics to cross-validated results.
 
 ---
 
@@ -505,7 +506,8 @@ Beyond predictive accuracy, the project emphasises explainability by validating 
 
 Potential extensions of this project include:
 
-- Expanding the dataset with newer smartphone releases.
+- Expanding the dataset with newer smartphone releases (531 records provides a solid proof of concept but limits reliability in the sparsely-represented premium flagship segment).
+- Adding an explicit brand feature alongside `Model_Encoded` for improved interpretability.
 - Incorporating additional hardware and software specifications.
 - Including temporal market trends and promotional pricing.
 - Evaluating advanced ensemble and stacking techniques.
